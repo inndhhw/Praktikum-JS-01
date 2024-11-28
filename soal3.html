@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menghitung biaya parkir</title>
+</head>
+<body>
+    <h1>Menghitung biaya parkir</h1>
+    <label for="masuk">Jam masuk</label>
+    <input type="time" id="masuk" onkeyup="parkir()"><br><br>
+
+    <label for="keluar">Jam keluar</label>
+    <input type="time" id="keluar" onkeyup="parkir()"><br>
+
+    <p>Kendaraan anda parkir selama <span id="lamaParkir">0</span> Jam</p>  
+    <p>Biaya parkir anda sebesar Rp. <span id="biayaParkir">0</span></p>
+
+    <!-- Javascript -->
+    <script>
+        function parkir() {
+            let masuk = document.getElementById('masuk').value;
+            let keluar = document.getElementById('keluar').value;
+
+            if (masuk && keluar) {
+                let jamMasuk = parseInt(masuk.split(':')[0]);
+                let menitMasuk = parseInt(masuk.split(':')[1]);
+                let jamKeluar = parseInt(keluar.split(':')[0]);
+                let menitKeluar = parseInt(keluar.split(':')[1]);
+
+                // Menghitung total menit
+                let totalMenitMasuk = jamMasuk * 60 + menitMasuk;
+                let totalMenitKeluar = jamKeluar * 60 + menitKeluar;
+
+                let lamaParkir = totalMenitKeluar - totalMenitMasuk;
+                if (lamaParkir < 0) {
+                    lamaParkir += 24 * 60; 
+                }
+
+                // Menghitung biaya parkir
+                let biayaParkir;
+                if (lamaParkir <= 120) { 
+                    biayaParkir = 3000;
+                } else {
+                    let jamLebih = Math.ceil((lamaParkir - 120) / 60);
+                    biayaParkir = 3000 + (jamLebih * 100); 
+                }
+
+                document.getElementById('lamaParkir').innerHTML = (lamaParkir / 60).toFixed(2);
+                document.getElementById('biayaParkir').innerHTML = biayaParkir;
+            } else {
+                document.getElementById('lamaParkir').innerHTML = lamaParkir;
+                document.getElementById('biayaParkir').innerHTML = biayaParkir;
+            }
+        }
+    </script>
+</body>
+</html>
